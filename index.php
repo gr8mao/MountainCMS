@@ -10,7 +10,7 @@
  */
 
 
-define('ROOT', dirname(__FILE__)); // define ROOT directory
+define('ROOT', dirname(__FILE__).'/mtn-core'); // define ROOT directory
 
 include_once ROOT . '/components/Router.php';
 include_once ROOT . '/components/autoload.php';
