@@ -12,9 +12,9 @@ class Router
 
     public function __construct()
     {
-        $routePath = "config/routes.php";
-        $adminPath = "config/adminRoutes.php";
-        $this->routes = array_merge( include ($routePath), include ($adminPath));
+        $routePath = ROOT . "/config/routes.php";
+        $adminPath = ROOT . "/config/adminRoutes.php";
+        $this->routes = array_merge(include ($adminPath), include ($routePath));
     }
 
     private function getURI()
@@ -36,13 +36,13 @@ class Router
             {
                 $internalRoute = preg_replace("~^$URIpattern~",$path,$uri);
 
-                $segments = explode('/',$path);
+                $segments = explode('/',$internalRoute);
 
                 $controllerName = ucfirst(array_shift($segments) . 'Controller');
                 $actionName = 'action' . ucfirst(array_shift($segments));
                 $parameters = $segments;
 
-                $controllerFile = ROOT . '/controllers/' . $controllerName;
+                $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
 
                 if(file_exists($controllerFile))
                 {
@@ -50,10 +50,8 @@ class Router
                 }
                 else
                 {
-                    // TODO: 500 error callback
                     include_once (ROOT . '/controllers/ErrorController.php');
-                    $errorController = new ErrorController();
-                    $result = $errorController->actionError500();
+                    $result = ErrorController::actionError500("File $controllerFile does not exist in system");
                     break;
                 }
 
@@ -67,19 +65,15 @@ class Router
                     }
                     else
                     {
-                        // TODO: 500 error callback
                         include_once (ROOT . '/controllers/ErrorController.php');
-                        $errorController = new ErrorController();
-                        $result = $errorController->actionError500();
+                        $result = ErrorController::actionError404();
                         break;
                     }
                 }
                 else
                 {
-                    // TODO: 500 error callback
                     include_once (ROOT . '/controllers/ErrorController.php');
-                    $errorController = new ErrorController();
-                    $result = $errorController->actionError500();
+                    $result = ErrorController::actionError500("Method $actionName in $controllerName does not exist");
                     break;
                 }
             }
@@ -88,8 +82,7 @@ class Router
         if($result == null)
         {
             include_once (ROOT . '/controllers/ErrorController.php');
-            $errorController = new ErrorController();
-            $result = $errorController->actionError404();
+            $result = ErrorController::actionError404();
         }
     }
 }

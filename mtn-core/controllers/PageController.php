@@ -8,5 +8,8 @@
  */
 class PageController
 {
+    public function action()
+    {
 
+    }
 }
