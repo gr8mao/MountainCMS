@@ -57,11 +57,11 @@ class Page
 
 
     public function getHeader() {
-        return include_once ROOT.'/views/layouts/header.php';
+        return include_once ROOT . CORE_PATH . '/views/layouts/header.php';
     }
 
     public function getFooter() {
-        return include_once ROOT.'/views/layouts/footer.php';
+        return include_once ROOT . CORE_PATH . '/views/layouts/footer.php';
     }
 
     public function getContents()
@@ -71,7 +71,7 @@ class Page
 
     public function getTemplatePath()
     {
-        return ROOT.TEMPLATE_PATH.$this->template.'_template.php';
+        return ROOT.CORE_PATH.TEMPLATE_PATH.$this->template.'_template.php';
     }
 
 }

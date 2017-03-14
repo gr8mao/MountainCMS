@@ -6,15 +6,14 @@
  * Date: 22.01.17
  * Time: 16:12
  */
-class Router
+class CoreRouter
 {
     private $routes;
 
     public function __construct()
     {
-        $routePath = ROOT . "/config/routes.php";
-        $adminPath = ROOT . "/config/adminRoutes.php";
-        $this->routes = array_merge(include ($adminPath), include ($routePath));
+        $routePath = ROOT.CORE_PATH . "/config/routes.php";
+        $this->routes = include ($routePath);
     }
 
     private function getURI()
@@ -43,7 +42,7 @@ class Router
                 $parameters = $segments;
                 array_push($parameters, $uri);
 
-                $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
+                $controllerFile = ROOT.CORE_PATH . '/controllers/' . $controllerName . '.php';
 
                 if(file_exists($controllerFile))
                 {
@@ -51,7 +50,7 @@ class Router
                 }
                 else
                 {
-                    include_once (ROOT . '/controllers/ErrorController.php');
+                    include_once (ROOT.CORE_PATH . '/controllers/ErrorController.php');
                     $result = ErrorController::actionError500("File $controllerName does not exist in system");
                     break;
                 }
@@ -66,15 +65,14 @@ class Router
                     }
                     else
                     {
-                        include_once (ROOT . '/controllers/ErrorController.php');
-                        echo $uri;
+                        include_once (ROOT.CORE_PATH . '/controllers/ErrorController.php');
                         $result = ErrorController::actionError404();
                         break;
                     }
                 }
                 else
                 {
-                    include_once (ROOT . '/controllers/ErrorController.php');
+                    include_once (ROOT.CORE_PATH . '/controllers/ErrorController.php');
                     $result = ErrorController::actionError500("Method $actionName in $controllerName does not exist");
                     break;
                 }
@@ -83,7 +81,7 @@ class Router
 
         if($result == null)
         {
-            include_once (ROOT . '/controllers/ErrorController.php');
+            include_once (ROOT.CORE_PATH . '/controllers/ErrorController.php');
             $result = ErrorController::actionError404();
         }
     }

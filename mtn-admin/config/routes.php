@@ -2,10 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: maksimbelov
- * Date: 31.01.17
- * Time: 2:13
+ * Date: 14.03.17
+ * Time: 23:48
  */
 
 return array(
-  'admin' => 'admin/index'
+  '' => 'index/index'
 );

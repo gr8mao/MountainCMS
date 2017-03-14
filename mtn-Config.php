@@ -16,4 +16,7 @@ const DB_PREFIX = 'mtn_';
 
 /* Пути в системе */
 
-const TEMPLATE_PATH = '/views/template/';
+const TEMPLATES_PATH = '/views/templates/';
+define('ROOT', dirname(__FILE__)); // define ROOT directory
+define('CORE_PATH', '/mtn-core'); // define CORE directory
+define('ADMIN_PATH', '/mtn-admin'); // define ADMIN directory

@@ -14,13 +14,14 @@
 spl_autoload_register(function($class)
 {
     $path_array = array(
-        '/models/',
-        '/components/'
+        CORE_PATH.'/models/',
+        CORE_PATH.'/components/',
+        '/mtn-includes/'
     );
 
     foreach($path_array as $path)
     {
-        $path = ROOT . $path . $class .'.php';
+        $path =  ROOT . $path . $class .'.php';
         if(file_exists($path))
         {
             include_once $path;

@@ -2,15 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: maksimbelov
- * Date: 07.02.17
- * Time: 18:21
+ * Date: 14.03.17
+ * Time: 23:51
  */
-
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?echo $this->title;?></title>
+    <title>Админка</title>
 </head>
 <body>
+
