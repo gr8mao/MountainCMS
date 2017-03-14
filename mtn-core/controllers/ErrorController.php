@@ -23,7 +23,7 @@ class ErrorController
         return true;
     }
 
-    public static function actionDBerrorr($message = '') : bool
+    public static function actionDbError($message = '') : bool
     {
         echo 'DB error!';
         if ($message) {

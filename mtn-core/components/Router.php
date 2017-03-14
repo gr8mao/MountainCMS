@@ -41,6 +41,7 @@ class Router
                 $controllerName = ucfirst(array_shift($segments) . 'Controller');
                 $actionName = 'action' . ucfirst(array_shift($segments));
                 $parameters = $segments;
+                array_push($parameters, $uri);
 
                 $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
 
@@ -51,7 +52,7 @@ class Router
                 else
                 {
                     include_once (ROOT . '/controllers/ErrorController.php');
-                    $result = ErrorController::actionError500("File $controllerFile does not exist in system");
+                    $result = ErrorController::actionError500("File $controllerName does not exist in system");
                     break;
                 }
 
@@ -66,6 +67,7 @@ class Router
                     else
                     {
                         include_once (ROOT . '/controllers/ErrorController.php');
+                        echo $uri;
                         $result = ErrorController::actionError404();
                         break;
                     }

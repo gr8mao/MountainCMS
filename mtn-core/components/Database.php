@@ -6,43 +6,48 @@
  * Date: 31.01.17
  * Time: 21:49
  */
+
 final class Database
 {
     protected static $instance;
+    private $dbConnection;
 
     public static function getInstance()
     {
-        if(self::$instance === null)
-        {
+        if (self::$instance === null) {
             self::$instance = new self;
         }
 
         return self::$instance;
     }
 
-    private static function __construct()
-    {
-        $dbParamsPath = ROOT . '/config/dbParams.php';
-        $dbParams = include $dbParamsPath;
+    private function __construct(){}
 
-        $dsn = "mysql:host={$dbParams['host']};dbname={$dbParams['dbname']};charset=utf8";
+    public function __wakeup(){}
+
+    public function __clone(){}
+
+    private static function initConnection(){
+        $dsn = "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8";
+
         try {
-            $db = new PDO ($dsn, $dbParams['user'], $dbParams['password']);
+            $db = self::getInstance();
+            $db->dbConnection = new PDO ($dsn, DB_USER, DB_PSWD);
+            $db->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $db->dbConnection;
         } catch (PDOException $e) {
             ErrorController::actionError500('Database connection error');
         }
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $db;
-        
+        return null;
     }
 
-    public static function __wakeup()
-    {
-        
-    }
-
-    public static function __clone()
-    {
-        
+    public static function getDBConnection() {
+        try {
+            $db = self::initConnection();
+            return $db;
+        } catch (Exception $e) {
+            ErrorController::actionError500("I was unable to open a connection to the database. " . $e->getMessage());
+            return null;
+        }
     }
 }

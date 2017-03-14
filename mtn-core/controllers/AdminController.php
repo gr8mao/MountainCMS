@@ -8,7 +8,7 @@
  */
 class AdminController
 {
-    public function actionIdndex()
+    public function actionIndex()
     {
         echo 'admin panel';
         return true;
