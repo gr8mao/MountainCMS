@@ -8,6 +8,7 @@
  */
 class UserManageController
 {
+    // new
     public function actionIndex($page = 1){
         if(User::checkLogged() and User::checkUserAdmin($_COOKIE['User'])){
             $username = User::getUsernameById($_COOKIE['User']);
