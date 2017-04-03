@@ -30,11 +30,11 @@ class Page
     private function initPage(){
         $pageConfig = self::getPageConfig();
 
-        $this->contents = $pageConfig['Contents'];
-        $this->title = $pageConfig['Title'];
-        $this->description = $pageConfig['Description'];
-        $this->keywords = $pageConfig['Keywords'];
-        $this->template = $pageConfig['Template'];
+        $this->contents = $pageConfig['page_contents'];
+        $this->title = $pageConfig['page_title'];
+        $this->description = $pageConfig['page_description'];
+        $this->keywords = $pageConfig['page_keywords'];
+        $this->template = $pageConfig['page_template'];
     }
 
     private function getPageConfig()
@@ -42,7 +42,7 @@ class Page
         $dbConnection = Database::getDBConnection();
 
         if($dbConnection) {
-            $query = "SELECT * FROM " . DB_PREFIX . "pageContents WHERE Route = :route";
+            $query = "SELECT * FROM " . DB_PREFIX . "pageContents WHERE page_route = :route";
 
             $query = $dbConnection->prepare($query);
             $query->bindParam(':route', $this->route, PDO::PARAM_STR);
@@ -57,11 +57,19 @@ class Page
 
 
     public function getHeader() {
-        return include_once ROOT . CORE_PATH . '/views/layouts/header.php';
+        $title = $this->title;
+        $isAdmin = false;
+        if(User::checkLogged()){
+            if(User::checkUserAdmin($_COOKIE['User'])){
+                $isAdmin = true;
+                $username = User::getUsernameById($_COOKIE['User']);
+            }
+        }
+        return include_once MTN_ROOT . MTN_CORE . '/views/layouts/header.php';
     }
 
     public function getFooter() {
-        return include_once ROOT . CORE_PATH . '/views/layouts/footer.php';
+        return include_once MTN_ROOT . MTN_CORE . '/views/layouts/footer.php';
     }
 
     public function getContents()
@@ -71,7 +79,7 @@ class Page
 
     public function getTemplatePath()
     {
-        return ROOT.CORE_PATH.TEMPLATE_PATH.$this->template.'_template.php';
+        return MTN_ROOT.MTN_CORE.TEMPLATES_PATH.'/'.$this->template.'Template.php';
     }
 
 }

@@ -14,14 +14,16 @@
 spl_autoload_register(function($class)
 {
     $path_array = array(
-        CORE_PATH.'/models/',
-        CORE_PATH.'/components/',
+        '/mtn-includes/models/',
+        '/mtn-includes/controllers/',
+        MTN_CORE.'/components/',
+        MTN_ADMIN.'/components/',
         '/mtn-includes/'
     );
 
     foreach($path_array as $path)
     {
-        $path =  ROOT . $path . $class .'.php';
+        $path =  MTN_ROOT . $path . $class .'.php';
         if(file_exists($path))
         {
             include_once $path;

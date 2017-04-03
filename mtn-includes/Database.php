@@ -10,7 +10,7 @@
 final class Database
 {
     protected static $instance;
-    private $dbConnection;
+    private static $dbConnection;
 
     public static function getInstance()
     {
@@ -27,27 +27,22 @@ final class Database
 
     public function __clone(){}
 
-    private static function initConnection(){
+    public static function initConnection(){
         $dsn = "mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8";
 
         try {
-            $db = self::getInstance();
-            $db->dbConnection = new PDO ($dsn, DB_USER, DB_PSWD);
-            $db->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $db->dbConnection;
+            self::$dbConnection = new PDO ($dsn, DB_USER, DB_PSWD);
+            if(MTN_DEBUG){
+                self::$dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }
+            return  self::$dbConnection;
         } catch (PDOException $e) {
-            ErrorController::actionError500('Database connection error');
+            ErrorController::actionDbError("I was unable to open a connection to the database. " . $e->getMessage());
         }
         return null;
     }
 
     public static function getDBConnection() {
-        try {
-            $db = self::initConnection();
-            return $db;
-        } catch (Exception $e) {
-            ErrorController::actionError500("I was unable to open a connection to the database. " . $e->getMessage());
-            return null;
-        }
+        return self::$dbConnection;
     }
 }

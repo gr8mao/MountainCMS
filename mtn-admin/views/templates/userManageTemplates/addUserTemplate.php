@@ -1,0 +1,134 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: maksimbelov
+ * Date: 01.04.17
+ * Time: 23:28
+ */
+$title = "Новый пользователь";
+include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
+
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui simple vertical tabular menu fluid admin">
+            <a class="item" href="/mtn-admin">
+                Страницы
+            </a>
+            <a class="item active" href="/mtn-admin/users">
+                Пользователи
+            </a>
+            <a class="item">
+                Настройки
+            </a>
+        </div>
+    </div>
+    <div class="thirteen wide column">
+        <div class="admin content">
+            <h1>Новый пользователь</h1>
+            <div class="ui grid">
+                <div class="ten wide column">
+                    <form class="ui form">
+                        <h4 class="ui dividing header">Информация об аккаунте</h4>
+                        <div class="two fields">
+                            <div class="field">
+                                <label for="login">Логин</label>
+                                <input type="text" name="login" id='login' placeholder="Логин" required>
+                            </div>
+                            <div class="field">
+                                <label for="password">Пароль</label>
+                                <div class="ui action input">
+                                    <input type="text" name="password" id="password" placeholder="Пароль" required>
+                                    <button class="ui blue right icon button" id="generatePassword">
+                                        <i class="wizard icon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="user_role">Роль в системе</label>
+                            <div class="fields">
+                                <div class="eight wide field">
+                                    <select class="ui fluid dropdown selection" name="user_role" id="user_role">
+                                        <option value='1' id="admin">Администратор</option>
+                                        <option value="2">Модератор</option>
+                                        <option value="3">Редактор</option>
+                                        <option value="4" selected>Пользователь</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="ui dividing header">Личная и контактная информация</h4>
+                        <div class="field">
+                            <label>Имя пользователя</label>
+                            <div class="two fields">
+                                <div class="field">
+                                    <input type="text" name="name" placeholder="Имя">
+                                </div>
+                                <div class="field">
+                                    <input type="text" name="surname" placeholder="Фамилия">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>E-mail</label>
+                            <div class="fields">
+                                <div class="eight wide field">
+                                    <input type="text" name="email" placeholder="Электронная почта" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right floated left aligned column">
+                            <a class="ui left attached button" href="/mtn-admin/users">Отменить</a>
+                            <input type="submit" name="submit" class="right attached ui blue button" value="Сохранить">
+                        </div>
+                    </form>
+                </div>
+                <div class="six wide column">
+                    <div class="ui warning icon message transition" id="warningPassword" style="display: none;">
+                        <i class="icon warning"></i>
+                        <i class="close icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Внимание! Запишите пароль!
+                            </div>
+                            В целях безопасности пароль шифруется и в открытом виде в системе не показывается!
+                        </div>
+                    </div>
+                    <div class="ui warning icon message" id="warningAdmin" style="display: none;">
+                        <i class="icon warning"></i>
+                        <i class="close icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Внимание!
+                            </div>
+                            Назначая пользователя администратором, вы открываете ему полный функционал управления
+                            системой.
+                            Удостоверьтесь, что даете доступ к системе проверенным людям!
+                        </div>
+                    </div>
+                    <div class="ui icon message" id="loading" style="display: none;">
+                        <i class="notched circle loading icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Секундочку!
+                            </div>
+                            <p>Сохраняем нового пользователя в системе</p>
+                        </div>
+                    </div>
+                    <div class="ui success icon message" id="successRegistr" style="display: none;">
+                        <i class="icon checkmark"></i>
+                        <i class="close icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                Пользователь успешно сохранен!
+                            </div>
+                            <p>Пользователю на почту отправлено письмо для подтверждения регистрации</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<? include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/footer.php' ?>

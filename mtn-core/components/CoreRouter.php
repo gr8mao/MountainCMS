@@ -12,7 +12,7 @@ class CoreRouter
 
     public function __construct()
     {
-        $routePath = ROOT.CORE_PATH . "/config/routes.php";
+        $routePath = MTN_ROOT.MTN_CORE . "/config/routes.php";
         $this->routes = include ($routePath);
     }
 
@@ -42,7 +42,7 @@ class CoreRouter
                 $parameters = $segments;
                 array_push($parameters, $uri);
 
-                $controllerFile = ROOT.CORE_PATH . '/controllers/' . $controllerName . '.php';
+                $controllerFile = MTN_ROOT.MTN_CORE . '/controllers/' . $controllerName . '.php';
 
                 if(file_exists($controllerFile))
                 {
@@ -50,7 +50,6 @@ class CoreRouter
                 }
                 else
                 {
-                    include_once (ROOT.CORE_PATH . '/controllers/ErrorController.php');
                     $result = ErrorController::actionError500("File $controllerName does not exist in system");
                     break;
                 }
@@ -65,14 +64,12 @@ class CoreRouter
                     }
                     else
                     {
-                        include_once (ROOT.CORE_PATH . '/controllers/ErrorController.php');
                         $result = ErrorController::actionError404();
                         break;
                     }
                 }
                 else
                 {
-                    include_once (ROOT.CORE_PATH . '/controllers/ErrorController.php');
                     $result = ErrorController::actionError500("Method $actionName in $controllerName does not exist");
                     break;
                 }
@@ -81,7 +78,6 @@ class CoreRouter
 
         if($result == null)
         {
-            include_once (ROOT.CORE_PATH . '/controllers/ErrorController.php');
             $result = ErrorController::actionError404();
         }
     }

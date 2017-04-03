@@ -1,0 +1,28 @@
+.display.none {
+    display: none;
+}
+
+.login.logo {
+    margin-top: 5rem;
+    height: 150px!important;
+}
+
+input.invalid {
+    border: 1px solid red!important;
+}
+
+input.valid {
+    border: 1px solid green!important;
+}
+
+.admin.menu {
+    padding-left: 1.5rem!important;
+}
+
+.no.margin {
+    margin: 0;
+}
+
+.admin.content {
+    margin-right: 1.5rem!important;
+}

@@ -12,7 +12,7 @@ class AdminRouter
 
     public function __construct()
     {
-        $routePath = ROOT.ADMIN_PATH . "/config/routes.php";
+        $routePath = MTN_ROOT.MTN_ADMIN . "/config/routes.php";
         $this->routes = include ($routePath);
     }
 
@@ -20,7 +20,7 @@ class AdminRouter
     {
         if(!empty($_SERVER['REQUEST_URI']))
         {
-            $internalPath =  str_replace("mtn-admin", "", $_SERVER['REQUEST_URI']);
+            $internalPath =  str_replace("/mtn-admin", "", $_SERVER['REQUEST_URI']);
             return trim($internalPath,'/');
         }
     }
@@ -42,7 +42,7 @@ class AdminRouter
                 $actionName = 'action' . ucfirst(array_shift($segments));
                 $parameters = $segments;
 
-                $controllerFile = ROOT.ADMIN_PATH . '/controllers/' . $controllerName . '.php';
+                $controllerFile = MTN_ROOT.MTN_ADMIN . '/controllers/' . $controllerName . '.php';
 
                 if(file_exists($controllerFile))
                 {
@@ -50,7 +50,6 @@ class AdminRouter
                 }
                 else
                 {
-                    include_once (ROOT.ADMIN_PATH . '/controllers/ErrorController.php');
                     $result = ErrorController::actionError500("File $controllerName does not exist in system");
                     break;
                 }
@@ -65,14 +64,12 @@ class AdminRouter
                     }
                     else
                     {
-                        include_once (ROOT.ADMIN_PATH . '/controllers/ErrorController.php');
                         $result = ErrorController::actionError404();
                         break;
                     }
                 }
                 else
                 {
-                    include_once (ROOT.ADMIN_PATH . '/controllers/ErrorController.php');
                     $result = ErrorController::actionError500("Method $actionName in $controllerName does not exist");
                     break;
                 }
@@ -81,7 +78,6 @@ class AdminRouter
 
         if($result == null)
         {
-            include_once (ROOT.ADMIN_PATH . '/controllers/ErrorController.php');
             $result = ErrorController::actionError404();
         }
     }

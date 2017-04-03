@@ -7,5 +7,8 @@
  */
 
 return array(
+  'users/addnew' => 'userManage/addNew',
+  'users/page-([0-9]+)' => 'userManage/index/$1',
+  'users' => 'userManage/index/$1',
   '' => 'index/index'
 );

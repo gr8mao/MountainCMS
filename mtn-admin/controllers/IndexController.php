@@ -10,7 +10,14 @@ class IndexController
 {
     public function actionIndex()
     {
-        include_once ROOT.ADMIN_PATH.'/views/templates/index_template.php';
+        if(User::checkLogged() and User::checkUserAdmin($_COOKIE['User'])){
+            $username = User::getUsernameById($_COOKIE['User']);
+            include_once MTN_ROOT.MTN_ADMIN.TEMPLATES_PATH.'/indexTemplate.php';
+        } else {
+            header('Location: /mtn-admin/login');
+        }
+
         return true;
     }
+
 }
