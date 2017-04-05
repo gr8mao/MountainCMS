@@ -6,7 +6,6 @@
  * Date: 15.03.17
  * Time: 13:15
  */
-
 class User
 {
     public static function login()
@@ -20,14 +19,14 @@ class User
             // Флаг ошибок
             $errors = false;
             // Валидация полей
-            if (!User::checkUsername($username)) {
+            if (!User::checkLogin($username)) {
                 $errors[] = 'Логин не может быть короче 4-х символов';
             }
             if (!User::checkPassword($password)) {
-                $errors[] = 'Пароль не должен быть короче 6-ти символов';
+                $errors[] = 'Пароль не должен быть короче 10-ти символов';
             }
             // Проверяем существует ли пользователь
-            if(!$errors){
+            if (!$errors) {
                 $userId = User::checkUserData($username, $password);
                 if (!$userId) {
                     // Если данные неправильные - показываем ошибку
@@ -46,8 +45,8 @@ class User
 
     public static function logout()
     {
-        setcookie('User',null, -1);
-        if(isset($_COOKIE['User'])){
+        setcookie('User', null, -1);
+        if (isset($_COOKIE['User'])) {
             return false;
         }
         return true;
@@ -56,15 +55,17 @@ class User
     /*
      * Функция шифрования ID пользователя
      */
-    private static function encryptUserID($id){
-        return openssl_encrypt($id,'RC4',SECURITY_KEY, OPENSSL_RAW_DATA);
+    private static function encryptUserID($id)
+    {
+        return openssl_encrypt($id, 'RC4', SECURITY_KEY, OPENSSL_RAW_DATA);
     }
 
     /*
     * Функция дешифрования ID пользователя
     */
-    private static function decryptUserID($id){
-        return openssl_decrypt($id,'RC4',SECURITY_KEY, OPENSSL_RAW_DATA);
+    private static function decryptUserID($id)
+    {
+        return openssl_decrypt($id, 'RC4', SECURITY_KEY, OPENSSL_RAW_DATA);
     }
 
     /*
@@ -75,22 +76,22 @@ class User
     public static function auth($userId)
     {
         $id = self::encryptUserID($userId);
-        setcookie('User',$id, time()+18000);
+        setcookie('User', $id, time() + 18000);
         return $id;
     }
 
     /*
      * Функция хешировния пароля пользователя
      */
-    private function encryptPassword($password)
+    private static function encryptPassword($password)
     {
-        return password_hash($password,PASSWORD_BCRYPT);
+        return password_hash($password, PASSWORD_BCRYPT);
     }
 
     /*
      * Функция подтверждения правильности введенного пароля по хешу
      */
-    private static function passwordVerify($password,$passwordHash)
+    private static function passwordVerify($password, $passwordHash)
     {
         return password_verify($password, $passwordHash);
     }
@@ -168,7 +169,7 @@ class User
         // Обращаемся к записи
         $result = $query->fetch();
 
-        if($result and self::passwordVerify($password,$result['user_password'])){
+        if ($result and self::passwordVerify($password, $result['user_password'])) {
             return $result['user_id'];
         } else {
             // TODO: Make ErrorController callback. Error: 'Wrong password'
@@ -180,10 +181,10 @@ class User
 
     /**
      * Проверяет не занят ли username другим пользователем
-     * @param string $username <p>Username</p>
+     * @param string $login <p>Username</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkUsernameExists($username)
+    public static function checkLoginExists($login)
     {
         // Соединение с БД
         $db = Database::getDBConnection();
@@ -191,9 +192,9 @@ class User
         $query = 'SELECT COUNT(*) FROM mtn_users WHERE user_login = :login';
         // Получение результатов. Используется подготовленный запрос
         $query = $db->prepare($query);
-        $query->bindParam(':login', $username, PDO::PARAM_STR);
+        $query->bindParam(':login', $login, PDO::PARAM_STR);
         $query->execute();
-        if ($query->fetchColumn()){
+        if ($query->fetchColumn()) {
             return true;
         }
         return false;
@@ -206,7 +207,7 @@ class User
      */
     public static function checkPassword($password)
     {
-        if (strlen($password) >= 6) {
+        if (strlen($password) >= 10) {
             return true;
         }
         return false;
@@ -230,9 +231,9 @@ class User
      * @param string $email <p>E-mail</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkUsername($username)
+    public static function checkLogin($login)
     {
-        if (strlen($username) >= 4) {
+        if (strlen($login) >= 4) {
             return true;
         }
         return false;
@@ -265,17 +266,22 @@ class User
 
         $result = $query->fetch();
 
-        if ($result['user_role'] <= 3){
+        if ($result['user_role'] <= 3) {
             return true;
         }
 
         return false;
     }
 
-    public static function getUsers($page,$perPage = 5){
+    public static function getUsers($page, $filter = '', $perPage = 5)
+    {
         $dbConnection = Database::getDBConnection();
 
-        $query = "SELECT * FROM mtn_users AS u LEFT JOIN mtn_userroles AS r ON (u.user_role = r.role_id) ORDER BY u.user_id ASC LIMIT :perPage OFFSET :page";
+        if($filter != ''){
+            $filter = " WHERE user_login LIKE '%$filter%'";
+        }
+
+        $query = "SELECT * FROM mtn_users AS u LEFT JOIN mtn_userroles AS r ON (u.user_role = r.role_id) $filter ORDER BY u.user_id ASC LIMIT :perPage OFFSET :page";
 
         $perPage = intval($perPage);
         $page = (intval($page) - 1) * $perPage;
@@ -290,7 +296,7 @@ class User
         $usersList = array();
         $i = 0;
 
-        while($row = $query->fetch()) {
+        while ($row = $query->fetch()) {
             $usersList[$i]['user_id'] = $row['user_id'];
             $usersList[$i]['user_login'] = $row['user_login'];
             $usersList[$i]['user_name'] = $row['user_name'];
@@ -317,16 +323,42 @@ class User
         return $result['count'];
     }
 
-    public static function getUserRoles(){
+    public static function getUserRoles()
+    {
         $dbConnection = Database::getDBConnection();
 
-        $query = 'SELECT * as roles FROM mtn_userroles';
+        $query = 'SELECT * FROM mtn_userroles';
 
         $query = $dbConnection->prepare($query);
         $query->execute();
 
-        $query->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $query->fetch();
-        return $result['roles'];
+        $rolesList = array();
+        $i = 0;
+        while ($row = $query->fetch()) {
+            $rolesList[$i]['role_id'] = $row['role_id'];
+            $rolesList[$i]['role_name'] = $row['role_name'];
+            $i++;
+        }
+        return $rolesList;
+    }
+
+    public static function addNewUserData($login, $password, $role, $name, $surname, $email)
+    {
+        $dbConnection = Database::getDBConnection();
+
+        $query = 'INSERT INTO `mtn_users`(`user_login`, `user_email`, `user_password`, `user_name`, `user_surname`, `user_role`) ' .
+                                      'VALUES (:login,:email,:password,:name,:surname,:role)';
+
+        $password = self::encryptPassword($password);
+
+        $query = $dbConnection->prepare($query);
+        $query->bindParam(':login', $login, PDO::PARAM_STR);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':password', $password, PDO::PARAM_STR);
+        $query->bindParam(':name', $name, PDO::PARAM_STR);
+        $query->bindParam(':surname', $surname, PDO::PARAM_STR);
+        $query->bindParam(':role', $role, PDO::PARAM_INT);
+
+        return $query->execute();
     }
 }

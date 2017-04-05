@@ -28,16 +28,21 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
             <h1>Пользователи на сайте <? echo SITE_NAME; ?></h1>
             <div class="ui grid">
                 <div class="eleven wide column">
-                    <a class="ui left attached button blue labeled icon" href="/mtn-admin/users/addnew"><i class="add user icon"></i>Добавить пользователя</a>
-                    <button class="right attached ui button blue right labeled icon"><i class="sitemap icon"></i>Изменить права</button>
+                    <a class="ui left attached button blue labeled icon" href="/mtn-admin/users/addnew"><i
+                            class="add user icon"></i>Добавить пользователя</a>
+                    <button class="right attached ui button blue right labeled icon"><i class="sitemap icon"></i>Изменить
+                        права
+                    </button>
                 </div>
                 <div class="five wide column">
+                    <form method="post" id="searchForm">
                     <div class="ui action input fluid">
-                        <input type="text" placeholder="Поиск пользователей...">
-                        <button class="ui icon blue button">
-                            <i class="search icon"></i>
-                        </button>
+                            <input type="text" placeholder="Поиск пользователей..." name="searchField" id="searchField">
+                            <button class="ui icon blue button" type="submit">
+                                <i class="search icon"></i>
+                            </button>
                     </div>
+                    </form>
                 </div>
             </div>
             <table class="ui compact celled definition table">
@@ -52,31 +57,31 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                     <th></th>
                 </tr>
                 </thead>
-                <tbody>
-                <?foreach ($users as $user):?>
+                <tbody id="usersList">
+                <? foreach ($users as $user): ?>
                     <tr>
                         <td class="collapsing">
                             <div class="ui checkbox">
                                 <input type="checkbox"> <label></label>
                             </div>
                         </td>
-                        <td><?echo $user['user_id']?></td>
-                        <td><?echo $user['user_login']?></td>
-                        <td><?echo $user['user_name'].' '.$user['user_surname'];?> </td>
-                        <td><?echo $user['user_email']?></td>
-                        <td><?echo $user['user_role']?></td>
+                        <td><? echo $user['user_id'] ?></td>
+                        <td><? echo $user['user_login'] ?></td>
+                        <td><? echo $user['user_name'] . ' ' . $user['user_surname']; ?> </td>
+                        <td><? echo $user['user_email'] ?></td>
+                        <td><? echo $user['user_role'] ?></td>
                         <td class="collapsing">
                             <div class="ui right floated small primary labeled icon button">
                                 <i class="user icon"></i> Изменить
                             </div>
                         </td>
                     </tr>
-                <?endforeach;?>
+                <? endforeach; ?>
                 </tbody>
             </table>
-            <?if($pagination):?>
-                <?echo $pagination->get();?>
-            <?endif;?>
+            <? if ($pagination): ?>
+                <? echo $pagination->get(); ?>
+            <? endif; ?>
         </div>
     </div>
 </div>

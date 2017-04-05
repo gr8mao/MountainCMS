@@ -27,17 +27,18 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
             <h1>Новый пользователь</h1>
             <div class="ui grid">
                 <div class="ten wide column">
-                    <form class="ui form">
+                    <form class="ui form" id="newUserForm" method="post">
+                        <input name="formId" value="newUserForm" hidden>
                         <h4 class="ui dividing header">Информация об аккаунте</h4>
                         <div class="two fields">
                             <div class="field">
                                 <label for="login">Логин</label>
-                                <input type="text" name="login" id='login' placeholder="Логин" required>
+                                <input type="text" name="login" id='login' placeholder="Логин">
                             </div>
                             <div class="field">
                                 <label for="password">Пароль</label>
                                 <div class="ui action input">
-                                    <input type="text" name="password" id="password" placeholder="Пароль" required>
+                                    <input type="text" name="password" id="password" placeholder="Пароль">
                                     <button class="ui blue right icon button" id="generatePassword">
                                         <i class="wizard icon"></i>
                                     </button>
@@ -48,11 +49,10 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                             <label for="user_role">Роль в системе</label>
                             <div class="fields">
                                 <div class="eight wide field">
-                                    <select class="ui fluid dropdown selection" name="user_role" id="user_role">
-                                        <option value='1' id="admin">Администратор</option>
-                                        <option value="2">Модератор</option>
-                                        <option value="3">Редактор</option>
-                                        <option value="4" selected>Пользователь</option>
+                                    <select class="ui fluid dropdown selection" name="userRole" id="userRole">
+                                        <?foreach($userroles as $role):?>
+                                            <option selected value='<?echo $role['role_id']?>' id="role_<?echo $role['role_id']?>"><?echo $role['role_name']?></option>
+                                        <?endforeach;?>
                                     </select>
                                 </div>
                             </div>
@@ -62,10 +62,10 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                             <label>Имя пользователя</label>
                             <div class="two fields">
                                 <div class="field">
-                                    <input type="text" name="name" placeholder="Имя">
+                                    <input type="text" name="name" id="firstName" placeholder="Имя">
                                 </div>
                                 <div class="field">
-                                    <input type="text" name="surname" placeholder="Фамилия">
+                                    <input type="text" name="surname" id="secondName" placeholder="Фамилия">
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                             <label>E-mail</label>
                             <div class="fields">
                                 <div class="eight wide field">
-                                    <input type="text" name="email" placeholder="Электронная почта" required>
+                                    <input type="text" name="email" id='email' placeholder="Электронная почта">
                                 </div>
                             </div>
                         </div>
@@ -113,6 +113,12 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                                 Секундочку!
                             </div>
                             <p>Сохраняем нового пользователя в системе</p>
+                        </div>
+                    </div>
+                    <div class="ui bottom attached warning message errors " style="display: none;">
+                        <h3>Мы нашли несколько ошибок!</h3>
+                        <div class="ui bulleted list">
+
                         </div>
                     </div>
                     <div class="ui success icon message" id="successRegistr" style="display: none;">

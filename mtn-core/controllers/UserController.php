@@ -18,11 +18,11 @@ class UserController
             // Флаг ошибок
             $errors = false;
             // Валидация полей
-            if (!User::checkUsername($username)) {
+            if (!User::checkLogin($username)) {
                 $errors[] = 'Логин не может быть короче 4-х символов';
             }
             if (!User::checkPassword($password)) {
-                $errors[] = 'Пароль не должен быть короче 6-ти символов';
+                $errors[] = 'Пароль не должен быть короче 10-ти символов';
             }
             // Проверяем существует ли пользователь
             if(!$errors){
