@@ -14,4 +14,5 @@
 <script src="<?echo SITE_URL.ASSETS_PATH.'/js/init.js'?>" rel="script" type="text/javascript"></script>
 <script src="<?echo SITE_URL.ASSETS_PATH.'/js/custom.js'?>" rel="script" type="text/javascript"></script>
 <script src="<?echo SITE_URL.ASSETS_PATH.'/js/randomGenerator.js'?>" rel="script" type="text/javascript"></script>
+<script src="<?echo SITE_URL.ASSETS_PATH.'/js/toastr.min.js'?>" rel="script" type="text/javascript"></script>
 </html>

@@ -27,21 +27,30 @@ $('#searchField').on('input', function () {
             $('#searchField').addClass('loading');
         },
         success: function (data) {
-            var users = jQuery.parseJSON(data);
+            var data = jQuery.parseJSON(data);
 
-            if (users.length == 0 ) {
-                $('#usersList').empty().append('<h5>', 'Список пользователей пуст');
+            if(data.pagination){
+                $('.pagination').remove();
+                $('#userTable').after(data.pagination);
+            } else {
+                $('.pagination').remove();
+            }
+
+            if (data.users.length == 0 && !$('.nouser').length) {
+                $('#usersList').empty();
+                $('#userTable').after('<h5 class="ui block header nouser">Список пользователей пуст</h5>');
             } else {
                 $('#searchField').removeClass('loading');
                 $('#usersList').empty();
-                users.forEach(function (user) {
-                    var userItem = '<tr> <td class="collapsing">'
+
+                data.users.forEach(function (user) {
+                    var userItem = '<tr class="user-'+user.user_id+'"> <td class="collapsing">'
                         + '<div class="ui checkbox">'
                         + '<input type="checkbox"> <label></label>'
                         + '</div>'
                         + '</td>'
-                        + '<td>' + user.user_id + '</td>'
-                        + '<td>' + user.user_login + '</td>'
+                        + '<td class="collapsing userId">' + user.user_id + '</td>'
+                        + '<td class="userLogin">' + user.user_login + '</td>'
                         + '<td>' + user.user_email + '</td>'
                         + '<td>' + user.user_name + ' ' + user.user_surname + '</td>'
                         + '<td>' + user.user_role + '</td>'
@@ -52,8 +61,40 @@ $('#searchField').on('input', function () {
                         + '</td>'
                         + '</tr>';
                     $('#usersList').append(userItem);
+                    $('.nouser').remove();
                 });
             }
         }
     });
+});
+
+$('.deleteUser').on("click",function(){
+    var delUserId = $(this).parent().parent().find('.userId').text();
+    var delUserLogin = $(this).parent().parent().find('.userLogin').text();
+    $('span.delUserLogin').text(delUserLogin);
+    $('.modal').modal({
+        closable  : false,
+        onDeny    : function(){
+            $(this).modal('hide');
+        },
+        onApprove : function() {
+            $.ajax({
+                method: "POST",
+                url: 'users/delete/id'+delUserId,
+                success: function(data){
+                    if(data == 1){
+                        toastr.info('Пользователь '+delUserLogin+' был удален!');
+                        $(".userId-"+delUserId).remove();
+                    } else {
+                        toastr.error('Пользователь не был удален!');
+                    }
+                },
+                error: function(){
+                    toastr.error('Запрос не был принят!');
+                }
+
+            });
+        }
+    }).modal('show');
+    return false;
 });

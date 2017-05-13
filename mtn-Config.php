@@ -35,5 +35,5 @@ const SECURITY_IV  = '34857d973953e44afb49ea9d61104d8c';
 
 /* Настройки сайта */
 const MTN_DEBUG = true;
-const SITE_URL = 'http://localhost:8888';
-const SITE_NAME = 'Site name';
+//const SITE_URL = 'http://localhost:8888';
+//const SITE_NAME = 'Site name';

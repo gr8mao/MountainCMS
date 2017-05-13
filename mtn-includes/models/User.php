@@ -8,41 +8,6 @@
  */
 class User
 {
-    public static function login()
-    {
-        // Обработка формы
-        if (isset($_POST['submit'])) {
-            // Если форма отправлена
-            // Получаем данные из формы
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            // Флаг ошибок
-            $errors = false;
-            // Валидация полей
-            if (!User::checkLogin($username)) {
-                $errors[] = 'Логин не может быть короче 4-х символов';
-            }
-            if (!User::checkPassword($password)) {
-                $errors[] = 'Пароль не должен быть короче 10-ти символов';
-            }
-            // Проверяем существует ли пользователь
-            if (!$errors) {
-                $userId = User::checkUserData($username, $password);
-                if (!$userId) {
-                    // Если данные неправильные - показываем ошибку
-                    $errors[] = 'Неверная пара логина и пароля!';
-                    return $errors;
-                } else {
-                    // Если данные правильные, запоминаем пользователя (сессия)
-                    User::auth($userId);
-                }
-            } else {
-                return $errors;
-            }
-        }
-        return false;
-    }
-
     public static function logout()
     {
         setcookie('User', null, -1);
@@ -103,7 +68,7 @@ class User
      */
     public static function getUserById($id)
     {
-        $id = self::decryptUserID($id);
+//        $id = self::decryptUserID($id);
         // Соединение с БД
         $DBConnection = Database::getDBConnection();
         // Текст запроса к БД
@@ -207,7 +172,7 @@ class User
      */
     public static function checkPassword($password)
     {
-        if (strlen($password) >= 10) {
+        if (strlen($password) >= 6) { // TODO: change 6 to 10!
             return true;
         }
         return false;
@@ -228,7 +193,7 @@ class User
 
     /**
      * Проверяет username
-     * @param string $email <p>E-mail</p>
+     * @param string $login <p>Login</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
     public static function checkLogin($login)
@@ -248,7 +213,7 @@ class User
     public static function checkLogged()
     {
         if (isset($_COOKIE['User'])) {
-            return $_COOKIE['User'];
+            return self::decryptUserID($_COOKIE['User']);
         }
         return false;
     }
@@ -277,7 +242,7 @@ class User
     {
         $dbConnection = Database::getDBConnection();
 
-        if($filter != ''){
+        if ($filter != '') {
             $filter = " WHERE user_login LIKE '%$filter%'";
         }
 
@@ -310,11 +275,15 @@ class User
         return $usersList;
     }
 
-    public static function getUserCount()
+    public static function getUserCount($filter = '')
     {
         $dbConnection = Database::getDBConnection();
 
-        $query = 'SELECT COUNT(*) as count FROM mtn_users';
+        if ($filter != '') {
+            $filter = " WHERE user_login LIKE '%$filter%'";
+        }
+
+        $query = 'SELECT COUNT(*) as count FROM mtn_users' . $filter;
 
         $query = $dbConnection->prepare($query);
         $query->execute();
@@ -347,7 +316,7 @@ class User
         $dbConnection = Database::getDBConnection();
 
         $query = 'INSERT INTO `mtn_users`(`user_login`, `user_email`, `user_password`, `user_name`, `user_surname`, `user_role`) ' .
-                                      'VALUES (:login,:email,:password,:name,:surname,:role)';
+            'VALUES (:login,:email,:password,:name,:surname,:role)';
 
         $password = self::encryptPassword($password);
 
@@ -358,6 +327,45 @@ class User
         $query->bindParam(':name', $name, PDO::PARAM_STR);
         $query->bindParam(':surname', $surname, PDO::PARAM_STR);
         $query->bindParam(':role', $role, PDO::PARAM_INT);
+
+        return $query->execute();
+    }
+
+    public static function deleteUser($userid)
+    {
+        $dbConnection = Database::getDBConnection();
+
+        $query = 'DELETE FROM `mtn_users` WHERE user_id = :id';
+
+        $query = $dbConnection->prepare($query);
+        $query->bindParam(':id', $userid, PDO::PARAM_INT);
+
+        return $query->execute();
+    }
+
+    public static function editUserInfo($id, $login, $role, $name, $surname, $email, $password = false)
+    {
+        $dbConnection = Database::getDBConnection();
+
+        if($password){
+            $query = 'UPDATE `mtn_users` SET `user_login`=:login,`user_email`=:email,`user_password`=:password,`user_name`=:name,`user_surname`=:surname,`user_role`=:role WHERE `user_id`=:id';
+        } else {
+            $query = 'UPDATE `mtn_users` SET `user_login`=:login,`user_email`=:email,`user_name`=:name,`user_surname`=:surname,`user_role`=:role WHERE `user_id`=:id';
+        }
+
+        $query = $dbConnection->prepare($query);
+
+        if($password) {
+            $password = self::encryptPassword($password);
+            $query->bindParam(':password', $password, PDO::PARAM_STR);
+        }
+
+        $query->bindParam(':login', $login, PDO::PARAM_STR);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':name', $name, PDO::PARAM_STR);
+        $query->bindParam(':surname', $surname, PDO::PARAM_STR);
+        $query->bindParam(':role', $role, PDO::PARAM_INT);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
 
         return $query->execute();
     }

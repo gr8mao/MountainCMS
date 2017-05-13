@@ -31,5 +31,7 @@ if(MTN_DEBUG){
 
 Database::initConnection();
 
+Options::initSystemOptions();
+
 $router = new CoreRouter();
 $router->run();

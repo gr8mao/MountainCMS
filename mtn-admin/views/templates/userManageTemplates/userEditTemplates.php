@@ -2,10 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: maksimbelov
- * Date: 01.04.17
- * Time: 23:28
+ * Date: 08.04.17
+ * Time: 12:00
  */
-$title = "Новый пользователь";
+
+$title = "Изменение пользователя";
 include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
 
 <div class="ui grid">
@@ -14,16 +15,16 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
     </div>
     <div class="thirteen wide column">
         <div class="admin content">
-            <h1>Новый пользователь</h1>
+            <h1>Изменение информации о пользователе <?echo $userInfo['user_login']?></h1>
             <div class="ui grid">
                 <div class="ten wide column">
-                    <form class="ui form" id="newUserForm" method="post">
+                    <form class="ui form editForm" id="newUserForm" method="post">
                         <input name="formId" value="newUserForm" hidden>
                         <h4 class="ui dividing header">Информация об аккаунте</h4>
                         <div class="two fields">
                             <div class="field">
                                 <label for="login">Логин</label>
-                                <input type="text" name="login" id='login' placeholder="Логин">
+                                <input type="text" name="login" id='login' placeholder="Логин" value="<?echo $userInfo['user_login']?>">
                             </div>
                             <div class="field">
                                 <label for="password">Пароль</label>
@@ -41,7 +42,7 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                                 <div class="eight wide field">
                                     <select class="ui fluid dropdown selection" name="userRole" id="userRole">
                                         <?foreach($userroles as $role):?>
-                                            <option selected value='<?echo $role['role_id']?>' id="role_<?echo $role['role_id']?>"><?echo $role['role_name']?></option>
+                                            <option value='<?echo $role['role_id']?>' <?if($role['role_id'] === $userInfo['user_role']){ echo 'selected';}?> id="role_<?echo $role['role_id']?>"><?echo $role['role_name']?></option>
                                         <?endforeach;?>
                                     </select>
                                 </div>
@@ -52,10 +53,10 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                             <label>Имя пользователя</label>
                             <div class="two fields">
                                 <div class="field">
-                                    <input type="text" name="name" id="firstName" placeholder="Имя">
+                                    <input type="text" name="name" id="firstName" placeholder="Имя" value="<?echo $userInfo['user_name']?>">
                                 </div>
                                 <div class="field">
-                                    <input type="text" name="surname" id="secondName" placeholder="Фамилия">
+                                    <input type="text" name="surname" id="secondName" placeholder="Фамилия" value="<?echo $userInfo['user_surname']?>">
                                 </div>
                             </div>
                         </div>
@@ -63,7 +64,7 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                             <label>E-mail</label>
                             <div class="fields">
                                 <div class="eight wide field">
-                                    <input type="text" name="email" id='email' placeholder="Электронная почта">
+                                    <input type="text" name="email" id='email' placeholder="Электронная почта" value="<?echo $userInfo['user_email']?>">
                                 </div>
                             </div>
                         </div>
@@ -102,7 +103,7 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                             <div class="header">
                                 Секундочку!
                             </div>
-                            <p>Сохраняем нового пользователя в системе</p>
+                            <p>Сохраняем данные пользователя в системе</p>
                         </div>
                     </div>
                     <div class="ui bottom attached warning message errors " style="display: none;">
@@ -116,9 +117,9 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
                         <i class="close icon"></i>
                         <div class="content">
                             <div class="header">
-                                Пользователь успешно сохранен!
+                                Данные пользователя изменены!
                             </div>
-                            <p>Пользователю на почту отправлено письмо для подтверждения регистрации</p>
+                            <p>Данные пользователя успешно изменены в системе</p>
                         </div>
                     </div>
                 </div>

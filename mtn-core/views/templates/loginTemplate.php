@@ -38,17 +38,17 @@
                     <input type="password" name="password" id="password" placeholder="Пароль">
                 </div>
                 <input class="ui blue submit button" name="submit" id="submit" value="Войти" type="submit">
-            </form>
-            <div class="ui bottom attached warning message errors <?if(!$errors):?>display none<?endif;?>">
-                <h3>Мы нашли несколько ошибок!</h3>
-                <div class="ui bulleted list">
-                    <?if($errors):?>
-                        <?foreach($errors as $error):?>
-                            <div class="item"><?echo $error;?></div>
-                        <?endforeach;?>
-                    <?endif;?>
+                <div class="ui bottom error message errors <?if($errors):?>display block<?endif;?>">
+                    <h3>Мы нашли несколько ошибок!</h3>
+                    <div class="ui bulleted list">
+                        <?if($errors):?>
+                            <?foreach($errors as $error):?>
+                                <div class="item"><?echo $error;?></div>
+                            <?endforeach;?>
+                        <?endif;?>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

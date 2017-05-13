@@ -2,6 +2,10 @@
     display: none;
 }
 
+.display.block {
+    display: block!important;
+}
+
 .login.logo {
     margin-top: 5rem;
     height: 150px!important;
@@ -25,4 +29,8 @@ input.valid {
 
 .admin.content {
     margin-right: 1.5rem!important;
+}
+
+.center.align{
+    text-align: center;
 }

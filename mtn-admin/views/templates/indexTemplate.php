@@ -10,17 +10,7 @@ include_once MTN_ROOT . MTN_ADMIN . '/views/layouts/header.php' ?>
 
 <div class="ui grid">
     <div class="three wide column">
-        <div class="ui simple vertical tabular menu fluid admin">
-            <a class="item active" href="/mtn-admin">
-                Страницы
-            </a>
-            <a class="item" href="/mtn-admin/users">
-                Пользователи
-            </a>
-            <a class="item">
-                Настройки
-            </a>
-        </div>
+        <?include_once MTN_ROOT.MTN_ADMIN.'/views/layouts/sideMenu.php';?>
     </div>
     <div class="thirteen wide column">
 
