@@ -9,3 +9,7 @@
 /* Ошибки конфигурации системы */
 
 const MTN_CONFIG_ERROR = 'MountainCMS configuration error';
+
+/* Ошибки подключения базы данных*/
+
+const MTN_DATABASE_CONNECTION_ERROR = 'MountainCMS unable to connect to database.';

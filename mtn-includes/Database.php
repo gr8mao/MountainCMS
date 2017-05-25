@@ -43,7 +43,7 @@ final class Database
             }
             return self::$dbConnection;
         } catch (PDOException $e) {
-            ErrorController::actionDbError("I was unable to open a connection to the database. " . $e->getMessage());
+            ErrorController::actionDbError(MTN_DATABASE_CONNECTION_ERROR . $e->getMessage());
         }
         return null;
     }

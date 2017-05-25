@@ -72,7 +72,7 @@ class User
         // Соединение с БД
         $DBConnection = Database::getDBConnection();
         // Текст запроса к БД
-        $query = 'SELECT * FROM mtn_users WHERE user_id = :id';
+        $query = 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = :id';
         // Получение и возврат результатов. Используется подготовленный запрос
         $query = $DBConnection->prepare($query);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
@@ -89,18 +89,20 @@ class User
      */
     public static function getUsernameById($id)
     {
-        $id = self::decryptUserID($id);
         // Соединение с БД
         $DBConnection = Database::getDBConnection();
         // Текст запроса к БД
-        $query = 'SELECT user_login FROM mtn_users WHERE user_id = :id';
+        $query = 'SELECT user_login FROM ' . DB_PREFIX . 'users WHERE user_id = :id';
         // Получение и возврат результатов. Используется подготовленный запрос
         $query = $DBConnection->prepare($query);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
-
         $query->execute();
-        $result = $query->fetch();
-        return $result['user_login'];
+
+        if($result = $query->fetch()){
+            return $result['user_login'];
+        } else {
+            return 'DELETED';
+        }
     }
 
     /**
@@ -126,7 +128,7 @@ class User
         // Соединение с БД
         $DBConnection = Database::getDBConnection();
         // Текст запроса к БД
-        $query = 'SELECT user_id, user_password FROM mtn_users WHERE user_login = :login';
+        $query = 'SELECT user_id, user_password FROM ' . DB_PREFIX . 'users WHERE user_login = :login';
         // Получение результатов. Используется подготовленный запрос
         $query = $DBConnection->prepare($query);
         $query->bindParam(':login', $username, PDO::PARAM_STR);
@@ -154,7 +156,7 @@ class User
         // Соединение с БД
         $db = Database::getDBConnection();
         // Текст запроса к БД
-        $query = 'SELECT COUNT(*) FROM mtn_users WHERE user_login = :login';
+        $query = 'SELECT COUNT(*) FROM ' . DB_PREFIX . 'users WHERE user_login = :login';
         // Получение результатов. Используется подготовленный запрос
         $query = $db->prepare($query);
         $query->bindParam(':login', $login, PDO::PARAM_STR);
@@ -222,7 +224,7 @@ class User
     {
         $dbConnection = Database::getDBConnection();
 
-        $query = 'SELECT user_role FROM mtn_users WHERE user_id = :user_id';
+        $query = 'SELECT user_role FROM ' . DB_PREFIX . 'users WHERE user_id = :user_id';
 
         $userId = self::decryptUserID($userId);
         $query = $dbConnection->prepare($query);
@@ -246,7 +248,7 @@ class User
             $filter = " WHERE user_login LIKE '%$filter%'";
         }
 
-        $query = "SELECT * FROM mtn_users AS u LEFT JOIN mtn_userroles AS r ON (u.user_role = r.role_id) $filter ORDER BY u.user_id ASC LIMIT :perPage OFFSET :page";
+        $query = "SELECT * FROM " . DB_PREFIX . "users AS u LEFT JOIN mtn_userroles AS r ON (u.user_role = r.role_id) $filter ORDER BY u.user_id ASC LIMIT :perPage OFFSET :page";
 
         $perPage = intval($perPage);
         $page = (intval($page) - 1) * $perPage;
@@ -283,7 +285,7 @@ class User
             $filter = " WHERE user_login LIKE '%$filter%'";
         }
 
-        $query = 'SELECT COUNT(*) as count FROM mtn_users' . $filter;
+        $query = 'SELECT COUNT(*) as count FROM ' . DB_PREFIX . 'users' . $filter;
 
         $query = $dbConnection->prepare($query);
         $query->execute();
@@ -296,7 +298,7 @@ class User
     {
         $dbConnection = Database::getDBConnection();
 
-        $query = 'SELECT * FROM mtn_userroles';
+        $query = 'SELECT * FROM ' . DB_PREFIX . 'userroles';
 
         $query = $dbConnection->prepare($query);
         $query->execute();
@@ -315,7 +317,7 @@ class User
     {
         $dbConnection = Database::getDBConnection();
 
-        $query = 'INSERT INTO `mtn_users`(`user_login`, `user_email`, `user_password`, `user_name`, `user_surname`, `user_role`) ' .
+        $query = 'INSERT INTO `' . DB_PREFIX . 'users`(`user_login`, `user_email`, `user_password`, `user_name`, `user_surname`, `user_role`) ' .
             'VALUES (:login,:email,:password,:name,:surname,:role)';
 
         $password = self::encryptPassword($password);
@@ -335,7 +337,7 @@ class User
     {
         $dbConnection = Database::getDBConnection();
 
-        $query = 'DELETE FROM `mtn_users` WHERE user_id = :id';
+        $query = 'DELETE FROM `' . DB_PREFIX . 'users` WHERE user_id = :id';
 
         $query = $dbConnection->prepare($query);
         $query->bindParam(':id', $userid, PDO::PARAM_INT);
@@ -348,9 +350,9 @@ class User
         $dbConnection = Database::getDBConnection();
 
         if($password){
-            $query = 'UPDATE `mtn_users` SET `user_login`=:login,`user_email`=:email,`user_password`=:password,`user_name`=:name,`user_surname`=:surname,`user_role`=:role WHERE `user_id`=:id';
+            $query = 'UPDATE `' . DB_PREFIX . 'users` SET `user_login`=:login,`user_email`=:email,`user_password`=:password,`user_name`=:name,`user_surname`=:surname,`user_role`=:role WHERE `user_id`=:id';
         } else {
-            $query = 'UPDATE `mtn_users` SET `user_login`=:login,`user_email`=:email,`user_name`=:name,`user_surname`=:surname,`user_role`=:role WHERE `user_id`=:id';
+            $query = 'UPDATE `' . DB_PREFIX . 'users` SET `user_login`=:login,`user_email`=:email,`user_name`=:name,`user_surname`=:surname,`user_role`=:role WHERE `user_id`=:id';
         }
 
         $query = $dbConnection->prepare($query);

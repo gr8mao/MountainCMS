@@ -12,7 +12,7 @@ class Options
     {
         $DBConnection = Database::getDBConnection();
 
-        $query = 'SELECT * FROM `mtn_options`';
+        $query = 'SELECT * FROM `' . DB_PREFIX . 'options`';
 
         $result = $DBConnection->prepare($query);
         $result->execute();
@@ -33,7 +33,7 @@ class Options
     {
         $DBConnection = Database::getDBConnection();
 
-        $query = 'UPDATE mtn_options SET option_value = :value WHERE option_name = :name';
+        $query = 'UPDATE ' . DB_PREFIX . 'options SET option_value = :value WHERE option_name = :name';
 
         foreach($optionList as $key => $option){
             $result = $DBConnection->prepare($query);

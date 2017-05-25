@@ -11,17 +11,11 @@ class UserManageController
     public function actionIndex($page = 1)
     {
         if (User::checkLogged() and User::checkUserAdmin($_COOKIE['User'])) {
-            $username = User::getUsernameById($_COOKIE['User']);
-
             $count = User::getUserCount();
 
             $pagination = false;
             if ($count > 5) {
                 $pagination = new Pagination($count, $page, 5, 'page-');
-            }
-
-            if ($page == '') {
-                $page = 1;
             }
 
             if (isset($_POST['filter'])) {
@@ -57,8 +51,6 @@ class UserManageController
     public function actionAddNew()
     {
         if (User::checkLogged() and User::checkUserAdmin($_COOKIE['User'])) {
-            $username = User::getUsernameById($_COOKIE['User']);
-
             $userroles = User::getUserRoles();
 
             if (isset($_POST['formId'])) {
@@ -120,7 +112,6 @@ class UserManageController
     public static function actionEditUser($id)
     {
         if (User::checkLogged() and User::checkUserAdmin($_COOKIE['User'])) {
-            $username = User::getUsernameById($_COOKIE['User']);
             $userroles = User::getUserRoles();
             $userInfo = User::getUserById($id);
 

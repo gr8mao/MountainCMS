@@ -14,7 +14,13 @@ class PageController
     {
 
         $page = new Page($pageRoute);
-        self::renderPage($page);
+
+        if($page->getStatus() == 'published')
+        {
+            self::renderPage($page);
+        } else {
+            ErrorController::actionError404();
+        }
         return true;
     }
 

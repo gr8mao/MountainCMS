@@ -98,3 +98,34 @@ $('.deleteUser').on("click",function(){
     }).modal('show');
     return false;
 });
+
+$('.deletePage').on("click",function(){
+    var delPageId = $(this).parent().parent().find('.pageId').text();
+    var delPageHeader = $(this).parent().parent().find('.pageHeader').text();
+    $('span.delPageHeader').text(delPageHeader);
+    $('.modal').modal({
+        closable  : false,
+        onDeny    : function(){
+            $(this).modal('hide');
+        },
+        onApprove : function() {
+            $.ajax({
+                method: "POST",
+                url: 'pages/delete/id'+delPageId,
+                success: function(data){
+                    if(data == 1){
+                        toastr.info('Страница '+delPageHeader+' была удалена!');
+                        $(".pageId-"+delPageId).remove();
+                    } else {
+                        toastr.error('Страница не была удалена!');
+                    }
+                },
+                error: function(){
+                    toastr.error('Запрос не был принят!');
+                }
+
+            });
+        }
+    }).modal('show');
+    return false;
+});

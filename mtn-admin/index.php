@@ -16,7 +16,7 @@ include_once MTN_ROOT . MTN_ADMIN . '/components/AdminRouter.php';
 if (User::checkLogged()) {
     Database::initConnection();
     if(User::checkUserAdmin($_COOKIE['User'])){
-        $username = User::getUsernameById($_COOKIE['User']);
+        $username = User::getUsernameById(User::checkLogged());
 
         Options::initSystemOptions();
 

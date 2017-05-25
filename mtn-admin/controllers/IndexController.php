@@ -11,7 +11,7 @@ class IndexController
     public function actionIndex()
     {
         if(User::checkLogged() and User::checkUserAdmin($_COOKIE['User'])){
-            $username = User::getUsernameById($_COOKIE['User']);
+            $username = User::getUsernameById(User::checkLogged());
             include_once MTN_ROOT.MTN_ADMIN.TEMPLATES_PATH.'/indexTemplate.php';
         } else {
             header('Location: /mtn-admin/login');

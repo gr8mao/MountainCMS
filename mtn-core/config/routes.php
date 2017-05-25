@@ -7,7 +7,6 @@
  */
 
 return array(
-    'logout' => 'user/logout',
-    'login' => 'user/login',
-    '' => 'page/page'
+    '/logout' => 'user/logout',
+    '/login' => 'user/login',
 );

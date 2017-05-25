@@ -9,14 +9,42 @@
 $currentUri = $_SERVER['REQUEST_URI'];
 ?>
 
-<div class="ui secondary vertical menu fluid admin">
-    <a class="item <?if(stristr($currentUri,'/mtn-admin/page')){ echo 'active';}?>" href="/mtn-admin/">
-        Страницы
-    </a>
-    <a class="item <?if(stristr($currentUri,'/mtn-admin/users')){ echo 'active';}?>" href="/mtn-admin/users">
-        Пользователи
-    </a>
-    <a class="item <?if(stristr($currentUri,'/mtn-admin/options')){ echo 'active';}?>" href="/mtn-admin/options">
-        Настройки
-    </a>
+<div class="ui vertical accordion menu admin">
+    <div class="item">
+        <a class="<?if(stristr($currentUri,'/mtn-admin/pages')){echo 'active';}?> title" >
+            <i class="dropdown icon"></i>
+            Страницы
+        </a>
+        <div class="<?if(stristr($currentUri,'/mtn-admin/pages')){echo 'active';}?> content">
+            <div class="menu">
+                <a class="item" href="/mtn-admin/pages">Все страницы</a>
+                <a class="item" href="/mtn-admin/pages">Шаблоны</a>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <a class="<?if(stristr($currentUri,'/mtn-admin/users')){echo 'active';}?> title" >
+            <i class="dropdown icon"></i>
+            Пользователи
+        </a>
+        <div class="<?if(stristr($currentUri,'/mtn-admin/users')){echo 'active';}?> content">
+            <div class="menu">
+                <a class="item" href="/mtn-admin/users">Все пользователи</a>
+                <a class="item" href="/mtn-admin/users/addnew">Добавить пользователя</a>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <a class="<?if(stristr($currentUri,'/mtn-admin/options')){echo 'active';}?> title" >
+            <i class="dropdown icon"></i>
+            Настройки
+        </a>
+        <div class="<?if(stristr($currentUri,'/mtn-admin/options')){echo 'active';}?> content">
+            <div class="menu">
+                <a class="item" href="/mtn-admin/options">Общие настройки</a>
+                <a class="item">Стили</a>
+                <a class="item">Скрипты</a>
+            </div>
+        </div>
+    </div>
 </div>

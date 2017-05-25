@@ -15,7 +15,7 @@
     <link href="<? echo SITE_URL . ASSETS_PATH . '/css/admin.style.css' ?>" rel="stylesheet" media="all" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body class="pushable">
+<body>
 <?if($isAdmin):?>
     <div class="ui large menu no margin">
         <a class="active item" href="/mtn-admin/">Административная панель</a>

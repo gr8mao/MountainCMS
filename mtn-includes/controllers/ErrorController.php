@@ -6,7 +6,7 @@
  * Date: 31.01.17
  * Time: 1:36
  */
-class ErrorController
+class ErrorController // TODO: Rework ErrorController with ErrorsCodes
 {
     public static function actionError404() : bool
     {

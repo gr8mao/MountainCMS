@@ -38,51 +38,6 @@ jQuery(document).ready(function () {
             }
         }
     });
-    jQuery("#loginForm").form({
-        inline: true,
-        on: 'blur',
-        fields: {
-            username: {
-                identifier: 'username',
-                rules: [{type: 'empty', prompt: 'Пожалуйста, введите имя пользователя'}, {
-                    type: 'length[4]',
-                    prompt: 'Имя пользователя должно содержать не менее 4 символов'
-                }, {
-                    type: 'regExp',
-                    value: '^[a-zA-Z0-9_.]*$',
-                    prompt: 'Имя пользователя может содержать только латинские буквы, цифры, _ и .'
-                }]
-            },
-            firstName: {
-                identifier: 'fname',
-                rules: [{type: 'empty', prompt: 'Пожалуйста, введите Ваше имя'}, {
-                    type: 'length[2]',
-                    prompt: 'Имя не должно состоять из одного символа'
-                }]
-            },
-            lastName: {
-                identifier: 'lname',
-                rules: [{type: 'empty', prompt: 'Пожалуйста, введите Вашу фамилию'}, {
-                    type: 'length[2]',
-                    prompt: 'Фамилия не должна состоять из одного символа'
-                }]
-            },
-            email: {
-                identifier: 'email',
-                rules: [{type: 'empty', prompt: 'Пожалуйста, введите e-mail'}, {
-                    type: 'email',
-                    prompt: 'Пожалуйста, введите действительный e-mail адрес'
-                }]
-            },
-            password: {
-                identifier: 'password',
-                rules: [{type: 'empty', prompt: 'Пожалуйста, введите пароль'}, {
-                    type: 'length[6]',
-                    prompt: 'Пароль должен содержать не менее 6 символов'
-                }]
-            }
-        }
-    });
 
 
     jQuery('#newUserForm').bind('submit', function () {
@@ -182,7 +137,62 @@ jQuery(document).ready(function () {
         }
 
         return false;
-    })
+    });
+
+    jQuery("#editPage,#addPage").form({
+        on: 'blur',
+        fields: {
+            formId: {
+                identifier: 'formId',
+                rules: [
+                    {
+                        type: 'empty'
+                    }
+                ]
+            },
+            page_title: {
+                identifier: 'page_title',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Не задан заголовок страницы'
+                    }
+                ]
+            },
+            page_route: {
+                identifier: 'page_route',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Введите путь страницы'
+                    },
+                    {
+                        type: 'regExp',
+                        value: '^/[a-zA-Z0-9_]*$',
+                        prompt: 'Неверный формать пути. Путь может содержать только латинские буквы, цифры и _'
+                    }
+                ]
+            },
+            page_status: {
+                identifier: 'page_status',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Не указан статус'
+                    }
+                ]
+            },
+            page_template: {
+                identifier: 'page_template',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Не указан шаблон'
+                    }
+                ]
+            }
+        }
+    });
 });
 
 function emptyfy() {
