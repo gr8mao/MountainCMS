@@ -27,6 +27,9 @@ define('MTN_ADMIN', '/mtn-admin'); // define ADMIN directory
 const TEMPLATES_PATH = '/views/templates';
 const MTN_INC = '/mtn-includes';
 const ASSETS_PATH = MTN_INC.'/assets';
+const SERVICE_TEMPLATES = ASSETS_PATH.'/service/templates';
+const CUSTOM_PATH = ASSETS_PATH.'/custom';
+const SERVICE_PATH = ASSETS_PATH.'/service';
 
 /* Настройки безопасности */
 

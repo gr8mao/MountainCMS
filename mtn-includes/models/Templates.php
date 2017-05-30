@@ -12,7 +12,7 @@ class Templates
     {
         $templatesList = [];
 
-        $templates = scandir(MTN_ROOT . MTN_CORE . TEMPLATES_PATH, 1);
+        $templates = array_diff(scandir(MTN_ROOT . MTN_CORE . TEMPLATES_PATH, 1),array('.','..'));
 
         foreach ($templates as $template) {
             if (strpos($template, 'Template.php') !== false) {
@@ -21,5 +21,23 @@ class Templates
         }
 
         return $templatesList;
+    }
+
+    public static function getTemplatesFullList()
+    {
+        $filesList = [];
+
+        $filesInDir = array_diff(scandir(MTN_ROOT . MTN_CORE . TEMPLATES_PATH, 1),array('.','..'));
+
+        foreach ($filesInDir as $file) {
+            $filesList[] = array(
+                'file_name' => stristr($file, '.', true),
+                'file_path' => TEMPLATES_PATH.'/' . $file,
+                'file_full_path' => MTN_ROOT . MTN_CORE . TEMPLATES_PATH.'/' . $file,
+                'file_date' => date (DATE_FORMAT . ' ' . TIME_FORMAT, filemtime(MTN_ROOT . MTN_CORE . TEMPLATES_PATH.'/' . $file))
+            );
+        }
+
+        return $filesList;
     }
 }

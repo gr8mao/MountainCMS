@@ -29,7 +29,7 @@ $('#searchField').on('input', function () {
         success: function (data) {
             var data = jQuery.parseJSON(data);
 
-            if(data.pagination){
+            if (data.pagination) {
                 $('.pagination').remove();
                 $('#userTable').after(data.pagination);
             } else {
@@ -44,7 +44,7 @@ $('#searchField').on('input', function () {
                 $('#usersList').empty();
 
                 data.users.forEach(function (user) {
-                    var userItem = '<tr class="user-'+user.user_id+'"> <td class="collapsing">'
+                    var userItem = '<tr class="user-' + user.user_id + '"> <td class="collapsing">'
                         + '<div class="ui checkbox">'
                         + '<input type="checkbox"> <label></label>'
                         + '</div>'
@@ -68,28 +68,28 @@ $('#searchField').on('input', function () {
     });
 });
 
-$('.deleteUser').on("click",function(){
+$('.deleteUser').on("click", function () {
     var delUserId = $(this).parent().parent().find('.userId').text();
     var delUserLogin = $(this).parent().parent().find('.userLogin').text();
     $('span.delUserLogin').text(delUserLogin);
     $('.modal').modal({
-        closable  : false,
-        onDeny    : function(){
+        closable: false,
+        onDeny: function () {
             $(this).modal('hide');
         },
-        onApprove : function() {
+        onApprove: function () {
             $.ajax({
                 method: "POST",
-                url: 'users/delete/id'+delUserId,
-                success: function(data){
-                    if(data == 1){
-                        toastr.info('Пользователь '+delUserLogin+' был удален!');
-                        $(".userId-"+delUserId).remove();
+                url: 'users/delete/id' + delUserId,
+                success: function (data) {
+                    if (data == 1) {
+                        toastr.info('Пользователь ' + delUserLogin + ' был удален!');
+                        $(".userId-" + delUserId).remove();
                     } else {
                         toastr.error('Пользователь не был удален!');
                     }
                 },
-                error: function(){
+                error: function () {
                     toastr.error('Запрос не был принят!');
                 }
 
@@ -99,28 +99,100 @@ $('.deleteUser').on("click",function(){
     return false;
 });
 
-$('.deletePage').on("click",function(){
+$('.deletePage').on("click", function () {
     var delPageId = $(this).parent().parent().find('.pageId').text();
     var delPageHeader = $(this).parent().parent().find('.pageHeader').text();
     $('span.delPageHeader').text(delPageHeader);
     $('.modal').modal({
-        closable  : false,
-        onDeny    : function(){
+        closable: false,
+        onDeny: function () {
             $(this).modal('hide');
         },
-        onApprove : function() {
+        onApprove: function () {
             $.ajax({
                 method: "POST",
-                url: 'pages/delete/id'+delPageId,
-                success: function(data){
-                    if(data == 1){
-                        toastr.info('Страница '+delPageHeader+' была удалена!');
-                        $(".pageId-"+delPageId).remove();
+                url: 'pages/delete/id' + delPageId,
+                success: function (data) {
+                    if (data == 1) {
+                        toastr.info('Страница ' + delPageHeader + ' была удалена!');
+                        $(".pageId-" + delPageId).remove();
                     } else {
                         toastr.error('Страница не была удалена!');
                     }
                 },
-                error: function(){
+                error: function () {
+                    toastr.error('Запрос не был принят!');
+                }
+
+            });
+        }
+    }).modal('show');
+    return false;
+});
+
+$('.deleteFile').on("click", function () {
+    var delFileName = $(this).parent().parent().find('.filename').text();
+    var delFilePath = $(this).parent().parent().data('path');
+    $('span.delFileName').text(delFileName);
+    $('.modal').modal({
+        closable: false,
+        onDeny: function () {
+            $(this).modal('hide');
+        },
+        onApprove: function () {
+            $.ajax({
+                method: 'POST',
+                url: '/mtn-admin/files/delete',
+                data: {
+                    file_name: delFileName,
+                    file_path: delFilePath,
+                    opType: 'delete'
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        toastr.info('Файл ' + delFileName + ' был удален!');
+                        $(this).remove();
+                    } else {
+                        toastr.error('Файл не был удален!');
+                    }
+                },
+                error: function (data) {
+                    toastr.error('Запрос не был принят!');
+                }
+
+            });
+        }
+    }).modal('show');
+    return false;
+});
+
+$('.deleteTemplate').on("click", function () {
+    var delFileName = $(this).parent().parent().find('.filename').text();
+    var delFilePath = $(this).parent().parent().data('path');
+    $('span.delFileName').text(delFileName);
+    $('.modal').modal({
+        closable: false,
+        onDeny: function () {
+            $(this).modal('hide');
+        },
+        onApprove: function () {
+            $.ajax({
+                method: 'POST',
+                url: '/mtn-admin/templates/delete',
+                data: {
+                    file_name: delFileName,
+                    file_path: delFilePath,
+                    opType: 'delete'
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        toastr.info('Файл ' + delFileName + ' был удален!');
+                        $(this).remove();
+                    } else {
+                        toastr.error('Файл не был удален!');
+                    }
+                },
+                error: function (data) {
                     toastr.error('Запрос не был принят!');
                 }
 

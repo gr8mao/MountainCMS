@@ -8,12 +8,5 @@
 ?>
 
 </body>
-<!--<script src="https://code.jquery.com/jquery-3.2.0.min.js" rel="script" type="text/javascript"></script>-->
-<script src="<?echo SITE_URL.ASSETS_PATH.'/js/jquery-2.1.0.min.js'?>" rel="script" type="text/javascript"></script>
-<script src="<?echo SITE_URL.ASSETS_PATH.'/semantic-ui/semantic.min.js'?>" rel="script" type="text/javascript"></script>
-<script src="<?echo SITE_URL.ASSETS_PATH.'/js/validator.js'?>" rel="script" type="text/javascript"></script>
-<script src="<?echo SITE_URL.ASSETS_PATH.'/js/init.js'?>" rel="script" type="text/javascript"></script>
-<script src="<?echo SITE_URL.ASSETS_PATH.'/js/custom.js'?>" rel="script" type="text/javascript"></script>
-<script src="<?echo SITE_URL.ASSETS_PATH.'/js/randomGenerator.js'?>" rel="script" type="text/javascript"></script>
-<script src="<?echo SITE_URL.ASSETS_PATH.'/js/toastr.min.js'?>" rel="script" type="text/javascript"></script>
+<?Essentials::mtn_admin_footer();?>
 </html>

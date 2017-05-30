@@ -60,7 +60,7 @@ class Page
             $query->execute();
             return $query->fetch();
         } else {
-            ErrorController::actionError500('Eternal server error. No page in system');
+            ErrorController::actionError500('Eternal server error.');
             return false;
         }
     }

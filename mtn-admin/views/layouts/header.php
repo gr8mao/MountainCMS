@@ -9,12 +9,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title><? echo $title ?> | <?echo SITE_NAME;?></title>
-    <link href="<? echo SITE_URL . ASSETS_PATH . '/semantic-ui/semantic.min.css' ?>" rel="stylesheet" media="all" type="text/css">
-    <link href="<? echo SITE_URL . ASSETS_PATH . '/css/admin.style.css' ?>" rel="stylesheet" media="all" type="text/css">
-    <link href="<? echo SITE_URL . ASSETS_PATH . '/css/toastr.css' ?>" rel="stylesheet" media="all" type="text/css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?Essentials::mtn_admin_head($title);?>
+    <link href="<? echo SITE_URL . ASSETS_PATH . '/service/css/admin.style.css' ?>" rel="stylesheet" media="all" type="text/css">
+    <link href="<? echo SITE_URL . ASSETS_PATH . '/service/css/toastr.css' ?>" rel="stylesheet" media="all" type="text/css">
 </head>
 <body>
 <div class="ui large menu">

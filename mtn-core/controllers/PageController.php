@@ -17,7 +17,7 @@ class PageController
 
         if($page->getStatus() == 'published')
         {
-            self::renderPage($page);
+            $this->renderPage($page);
         } else {
             ErrorController::actionError404();
         }

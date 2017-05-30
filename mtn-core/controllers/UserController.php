@@ -48,7 +48,7 @@ class UserController
             return true;
         }
 
-        include_once MTN_ROOT.MTN_CORE.TEMPLATES_PATH.'/loginTemplate.php';
+        include_once MTN_ROOT.SERVICE_TEMPLATES.'/loginTemplate.php';
         return true;
     }
 

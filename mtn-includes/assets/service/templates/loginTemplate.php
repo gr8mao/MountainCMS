@@ -11,14 +11,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Авторизация на сайте <? echo SITE_NAME; ?></title>
-    <link href="<? echo SITE_URL . ASSETS_PATH . '/semantic-ui/semantic.min.css' ?>" rel="stylesheet" media="all" type="text/css">
-    <link href="<? echo SITE_URL . ASSETS_PATH . '/css/admin.style.css' ?>" rel="stylesheet" media="all" type="text/css">
+    <link href="<? echo SITE_URL . ASSETS_PATH . '/framework/semantic.min.css' ?>" rel="stylesheet" media="all" type="text/css">
+    <link href="<? echo SITE_URL . ASSETS_PATH . '/service/css/admin.style.css' ?>" rel="stylesheet" media="all" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <div class="ui three column centered grid">
     <div class="column center aligned">
-        <img class="ui image centered login logo" src="<?echo SITE_URL.ASSETS_PATH.'/images/mtn-logo.png'?>">
+        <img class="ui image centered login logo" src="<?echo SITE_URL.ASSETS_PATH.'/service/images/mtn-logo.png'?>">
     </div>
     <div class="three column centered row">
         <div class="column">
@@ -54,6 +54,6 @@
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.0.min.js" rel="script" type="text/javascript"></script>
-<script src="<?echo SITE_URL.ASSETS_PATH.'/semantic-ui/semantic.min.js'?>" rel="script" type="text/javascript"></script>
-<script src="<?echo SITE_URL.ASSETS_PATH.'/js/validator.js'?>" rel="script" type="text/javascript"></script>
+<script src="<?echo SITE_URL.ASSETS_PATH.'/framework/semantic.min.js'?>" rel="script" type="text/javascript"></script>
+<script src="<?echo SITE_URL.ASSETS_PATH.'/service/js/validator.js'?>" rel="script" type="text/javascript"></script>
 </html>

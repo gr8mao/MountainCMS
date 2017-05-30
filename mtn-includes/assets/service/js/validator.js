@@ -193,6 +193,34 @@ jQuery(document).ready(function () {
             }
         }
     });
+
+    jQuery("#addFile").form({
+        on: 'blur',
+        fields: {
+            formId: {
+                identifier: 'formId',
+                rules: [
+                    {
+                        type: 'empty'
+                    }
+                ]
+            },
+            file_name: {
+                identifier: 'file_name',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Не задано имя файла'
+                    },
+                    {
+                        type: 'regExp',
+                        value: '^[a-zA-Z0-9_]*$',
+                        prompt: 'Имя файла может содержать только латинские буквы, цифры и _'
+                    }
+                ]
+            }
+        }
+    })
 });
 
 function emptyfy() {

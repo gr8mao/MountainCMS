@@ -6,5 +6,4 @@
  * Time: 22:25
  */
 
-
 echo $contents;

@@ -18,7 +18,7 @@ $currentUri = $_SERVER['REQUEST_URI'];
         <div class="<?if(stristr($currentUri,'/mtn-admin/pages')){echo 'active';}?> content">
             <div class="menu">
                 <a class="item" href="/mtn-admin/pages">Все страницы</a>
-                <a class="item" href="/mtn-admin/pages">Шаблоны</a>
+                <a class="item" href="/mtn-admin/templates">Шаблоны</a>
             </div>
         </div>
     </div>
@@ -42,8 +42,8 @@ $currentUri = $_SERVER['REQUEST_URI'];
         <div class="<?if(stristr($currentUri,'/mtn-admin/options')){echo 'active';}?> content">
             <div class="menu">
                 <a class="item" href="/mtn-admin/options">Общие настройки</a>
-                <a class="item">Стили</a>
-                <a class="item">Скрипты</a>
+                <a class="item" href="/mtn-admin/files/styles">Стили</a>
+                <a class="item" href="/mtn-admin/files/scripts">Скрипты</a>
             </div>
         </div>
     </div>

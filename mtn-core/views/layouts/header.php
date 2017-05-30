@@ -9,11 +9,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title><?echo $title;?></title>
-    <link href="<? echo SITE_URL . ASSETS_PATH . '/semantic-ui/semantic.min.css' ?>" rel="stylesheet" media="all" type="text/css">
-    <link href="<? echo SITE_URL . ASSETS_PATH . '/css/admin.style.css' ?>" rel="stylesheet" media="all" type="text/css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?Essentials::mtn_head($title);?>
 </head>
 <body>
 <?if($isAdmin):?>
@@ -24,7 +20,6 @@
                 <i class="icon large user"></i>
                 <?echo $username;?> <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item"><i class="icon configure"></i>Редактировать</a>
                     <a class="item" href="/logout"><i class="icon sign out"></i>Выйти</a>
                 </div>
             </div>
