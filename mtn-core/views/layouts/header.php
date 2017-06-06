@@ -13,8 +13,10 @@
 </head>
 <body>
 <?if($isAdmin):?>
-    <div class="ui large menu no margin">
+    <div class="topadminmenu client ui large menu no margin">
         <a class="active item" href="/mtn-admin/">Административная панель</a>
+        <a class="item" href="/mtn-admin/pages/edit/id1">Редактировать страницу</a>
+        <a class="item" href="/mtn-admin/files/images">Медиафайлы</a>
         <div class="right menu">
             <div class="ui simple dropdown item">
                 <i class="icon large user"></i>

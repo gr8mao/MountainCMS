@@ -6,7 +6,6 @@
  * Date: 11.05.17
  * Time: 16:51
  */
-
 class OptionManageController
 {
     public static function actionIndex()
@@ -17,7 +16,47 @@ class OptionManageController
 
         $optionsList = Options::getOptionsList();
 
-        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionMangeTemplates/optionMangeTemplate.php';
+        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionManageTemplates/optionMangeTemplate.php';
+        return true;
+    }
+
+    public static function actionGalleryView()
+    {
+        $filesList = Files::getFilesListInDirectory('/images/');
+
+        if (isset($_FILES['file']['name'])) {
+            $validExt = ['jpeg', 'jpg', 'png', 'svg'];
+            $fileInfo = pathinfo($_FILES['file']['name']);
+
+            if (in_array($fileInfo['extension'], $validExt)) {
+                $uploaddir = MTN_ROOT . CUSTOM_PATH . '/images/';
+                $uploadfile = $uploaddir . basename($_FILES['file']['name']);
+
+                if (file_exists($uploadfile)) {
+                    echo 'exist';
+                    return true;
+                }
+
+                if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
+                    echo true;
+                } else {
+                    echo false;
+                };
+            } else {
+                echo 'wrongExt';
+            }
+            return true;
+        }
+
+        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionManageTemplates/galleryManageTemplate.php';
+        return true;
+    }
+
+    public static function actionGetAllImages()
+    {
+        $filesList = Files::getFilesListInDirectory('/images/');
+
+        echo json_encode($filesList);
         return true;
     }
 
@@ -32,11 +71,15 @@ class OptionManageController
                 $dir = '/css/';
                 $title = 'Стили';
                 break;
+            case 'images':
+                $dir = '/images/';
+                $title = 'Картинки';
+                break;
         }
 
         $filesList = Files::getFilesListInDirectory($dir);
 
-        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionMangeTemplates/fileViewTemplate.php';
+        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionManageTemplates/fileViewTemplate.php';
         return true;
     }
 
@@ -45,7 +88,7 @@ class OptionManageController
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             if (User::checkLogged() and User::checkUserAdmin($_COOKIE['User'])) {
                 if (isset($_POST['opType']) and $_POST['opType'] == 'delete') {
-                    $realPath = MTN_ROOT.$_POST['file_path'];
+                    $realPath = MTN_ROOT . $_POST['file_path'];
                     if (file_exists($realPath)) {
                         echo unlink($realPath);
                     }
@@ -65,31 +108,30 @@ class OptionManageController
         switch ($section) {
             case 'scripts':
                 $dir = '/js/';
-                $file = $file.'.js';
-                $title = 'Изменения файла '. $file;
+                $file = $file . '.js';
+                $title = 'Изменения файла ' . $file;
                 break;
             case 'styles':
                 $dir = '/css/';
-                $file = $file.'.css';
-                $title = 'Изменения файла '. $file;
+                $file = $file . '.css';
+                $title = 'Изменения файла ' . $file;
                 break;
         }
 
         $errors = [];
 
-        if(isset($_POST['formId']) and $_POST['formId'] == 'editFile')
-        {
+        if (isset($_POST['formId']) and $_POST['formId'] == 'editFile') {
             $fileContents = $_POST['file_contents'];
 
-            file_put_contents(MTN_ROOT.CUSTOM_PATH.$dir.$file, $fileContents);
+            file_put_contents(MTN_ROOT . CUSTOM_PATH . $dir . $file, $fileContents);
 
-            header('Location: /mtn-admin/files/'.$section);
+            header('Location: /mtn-admin/files/' . $section);
         }
-        $fileInfo = pathinfo(MTN_ROOT.CUSTOM_PATH.$dir.$file);
-        $fileDate = date (DATE_FORMAT . ' ' . TIME_FORMAT, filemtime(MTN_ROOT.CUSTOM_PATH.$dir.$file));
-        $fileContents = file_get_contents(MTN_ROOT.CUSTOM_PATH.$dir.$file);
+        $fileInfo = pathinfo(MTN_ROOT . CUSTOM_PATH . $dir . $file);
+        $fileDate = date(DATE_FORMAT . ' ' . TIME_FORMAT, filemtime(MTN_ROOT . CUSTOM_PATH . $dir . $file));
+        $fileContents = file_get_contents(MTN_ROOT . CUSTOM_PATH . $dir . $file);
 
-        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionMangeTemplates/fileEditTemplate.php';
+        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionManageTemplates/fileEditTemplate.php';
         return true;
     }
 
@@ -113,25 +155,22 @@ class OptionManageController
         $errors = [];
         $success = [];
 
-        if(isset($_POST['formId']) and $_POST['formId'] == 'addFile')
-        {
+        if (isset($_POST['formId']) and $_POST['formId'] == 'addFile') {
             $fileName = $_POST['file_name'];
             $fileContents = $_POST['file_contents'];
 
-            if($fileName == '' and preg_match('/^[a-zA-Z0-9_]+$/',$fileName))
-            {
+            if ($fileName == '' and preg_match('/^[a-zA-Z0-9_]+$/', $fileName)) {
                 $errors[] = 'Введите корректное имя файла';
             }
 
-            if(!$errors)
-            {
-                header('Content-Type: text/'.$mime);
-                file_put_contents(MTN_ROOT.CUSTOM_PATH.$dir.$fileName.$ext, $fileContents);
-                header('Location: /mtn-admin/files/'.$section);
+            if (!$errors) {
+                header('Content-Type: text/' . $mime);
+                file_put_contents(MTN_ROOT . CUSTOM_PATH . $dir . $fileName . $ext, $fileContents);
+                header('Location: /mtn-admin/files/' . $section);
             }
         }
 
-        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionMangeTemplates/fileAddTemplate.php';
+        require_once MTN_ROOT . MTN_ADMIN . TEMPLATES_PATH . '/optionManageTemplates/fileAddTemplate.php';
         return true;
     }
 }

@@ -19,6 +19,8 @@ return array(
 
     'files/(scripts)' => 'optionManage/filesView/$1',
     'files/(styles)' => 'optionManage/filesView/$1',
+    'files/images' => 'optionManage/galleryView/$1',
+    'files/allImages' => 'optionManage/getAllImages/$1',
     'files/delete' => 'optionManage/deleteFile',
     'files/add/(styles)' => 'optionManage/addFile/$1',
     'files/add/(scripts)' => 'optionManage/addFile/$1',
@@ -32,5 +34,8 @@ return array(
     'users/page-([0-9]+)' => 'userManage/index/$1',
     'users' => 'userManage/index',
 
+    'addcomment' => 'index/saveComment',
+    'checkcomment' => 'index/checkComment',
+    'getnewcomments' => 'index/getNewComments',
     '' => 'index/index'
 );

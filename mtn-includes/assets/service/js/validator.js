@@ -220,7 +220,8 @@ jQuery(document).ready(function () {
                 ]
             }
         }
-    })
+    });
+
 });
 
 function emptyfy() {

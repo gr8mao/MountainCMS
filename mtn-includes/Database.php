@@ -6,6 +6,7 @@
  * Date: 31.01.17
  * Time: 21:49
  */
+
 final class Database
 {
     protected static $instance;
@@ -20,17 +21,11 @@ final class Database
         return self::$instance;
     }
 
-    private function __construct()
-    {
-    }
+    private function __construct(){}
 
-    public function __wakeup()
-    {
-    }
+    public function __wakeup(){}
 
-    public function __clone()
-    {
-    }
+    public function __clone(){}
 
     public static function initConnection()
     {

@@ -36,6 +36,7 @@ class PageManageController
     {
         if (User::checkLogged() and User::checkUserAdmin($_COOKIE['User'])) {
 
+            $filesList = Files::getFilesListInDirectory('/images/');
             $templatesList = Templates::getTemplatesList();
             $pageInfo = [];
             $errors = [];
@@ -92,6 +93,8 @@ class PageManageController
                 $warningMessage = 'Данные сохранены!';
                 $pageInfo = $_POST;
             }
+
+            $filesList = Files::getFilesListInDirectory('/images/');
 
             $templatesList = Templates::getTemplatesList();
 

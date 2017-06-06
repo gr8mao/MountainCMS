@@ -25,7 +25,7 @@ class UserController
                 $errors[] = 'Пароль не должен быть короче 10-ти символов';
             }
             // Проверяем существует ли пользователь
-            if(!$errors){
+            if (!$errors) {
                 $userId = User::checkUserData($username, $password);
                 if (!$userId) {
                     // Если данные неправильные - показываем ошибку
@@ -33,7 +33,7 @@ class UserController
                 } else {
                     // Если данные правильные, запоминаем пользователя (сессия)
                     $id = User::auth($userId);
-                    if(User::checkUserAdmin($id)){
+                    if (User::checkUserAdmin($id)) {
                         header('Location: /mtn-admin');
                         return true;
                     }
@@ -43,18 +43,18 @@ class UserController
             }
         }
 
-        if(User::checkLogged()){
+        if (User::checkLogged()) {
             header('Location: /');
             return true;
         }
 
-        include_once MTN_ROOT.SERVICE_TEMPLATES.'/loginTemplate.php';
+        include_once MTN_ROOT . SERVICE_TEMPLATES . '/loginTemplate.php';
         return true;
     }
 
     public static function actionLogout()
     {
-        if(!User::checkLogged()){
+        if (!User::checkLogged()) {
             header('Location: /login');
             return true;
         } else {

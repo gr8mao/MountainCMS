@@ -4,3 +4,4 @@
 
 $('select.dropdown').dropdown();
 $('.ui.accordion').accordion();
+$('.tabular.menu .item').tab();

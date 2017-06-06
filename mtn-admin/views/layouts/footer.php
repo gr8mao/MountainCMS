@@ -6,7 +6,7 @@
  * Time: 23:51
  */
 ?>
-
+</div>
 </body>
 <?Essentials::mtn_admin_footer();?>
 </html>

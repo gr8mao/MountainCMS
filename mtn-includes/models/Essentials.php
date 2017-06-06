@@ -17,8 +17,7 @@ class Essentials
         ' . self::getFrameworkFiles('styles') . PHP_EOL
             . self::getFilesList('/css/') . PHP_EOL;
 
-        if(!User::isGuest() and User::checkUserAdmin($_COOKIE['User']))
-        {
+        if (!User::isGuest() and User::checkUserAdmin($_COOKIE['User'])) {
             echo self::getFilesList('/css/', true) . PHP_EOL;
         }
     }
@@ -27,10 +26,10 @@ class Essentials
     {
         echo '
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>' . $title . '</title>
         ' . self::getFrameworkFiles('styles') . PHP_EOL
-            . self::getFilesList('/css/', true) . PHP_EOL;
+            . self::getFilesList('/css/', true) . PHP_EOL
+            . self::getFrameworkFiles('scripts') . PHP_EOL;
     }
 
     public static function mtn_footer()
@@ -41,7 +40,6 @@ class Essentials
 
     public static function mtn_admin_footer()
     {
-        self::getFrameworkFiles('scripts');
         self::getFilesList('/js/', true);
     }
 
@@ -56,7 +54,9 @@ class Essentials
         $filesListRes = [];
         foreach ($filesList as $file) {
             $fileInfo = pathinfo(MTN_ROOT . $dir . $file);
-            if ($fileInfo['extension'] == 'css') {
+            if (!isset($fileInfo['extension'])) {
+                continue;
+            } else if ($fileInfo['extension'] == 'css') {
                 echo '<link href="' . SITE_URL . $dir . $file . '" rel="stylesheet" media="all">' . PHP_EOL;
             } else if ($fileInfo['extension'] == 'js') {
                 echo '<script src="' . SITE_URL . $dir . $file . '"type="text/javascript"></script>' . PHP_EOL;

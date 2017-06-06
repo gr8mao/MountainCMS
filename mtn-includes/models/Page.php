@@ -262,4 +262,16 @@ class Page
 
         return $result->fetch();
     }
+
+    public static function getLatestPages()
+    {
+        $DBConnection = Database::getDBConnection();
+
+        $query = "SELECT page_id, page_title, page_route, page_modify_date FROM " . DB_PREFIX . "pageContents WHERE page_modify_date < CURRENT_TIME ORDER BY page_modify_date DESC LIMIT 5";
+
+        $result = $DBConnection->prepare($query);
+        $result->execute();
+
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

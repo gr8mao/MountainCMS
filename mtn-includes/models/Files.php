@@ -15,12 +15,16 @@ class Files
         $filesInDir = array_diff(scandir(MTN_ROOT . CUSTOM_PATH . $dir, 1),array('.','..'));
 
         foreach ($filesInDir as $file) {
-            $filesList[] = array(
-                'file_name' => stristr($file, '.', true),
-                'file_path' => CUSTOM_PATH . $dir . $file,
-                'file_full_path' => MTN_ROOT . CUSTOM_PATH . $dir . $file,
-                'file_date' => date (DATE_FORMAT . ' ' . TIME_FORMAT, filemtime(MTN_ROOT . CUSTOM_PATH . $dir . $file))
-            );
+            $fileInfo = pathinfo(MTN_ROOT . CUSTOM_PATH . $dir . $file);
+            if($fileInfo['filename'] != '' and isset($fileInfo['extension']))
+            {
+                $filesList[] = array(
+                    'file_name' => $fileInfo['filename'],
+                    'file_path' => CUSTOM_PATH . $dir . $file,
+                    'file_full_path' => MTN_ROOT . CUSTOM_PATH . $dir . $file,
+                    'file_date' => date (DATE_FORMAT . ' ' . TIME_FORMAT, filemtime(MTN_ROOT . CUSTOM_PATH . $dir . $file))
+                );
+            }
         }
 
         return $filesList;

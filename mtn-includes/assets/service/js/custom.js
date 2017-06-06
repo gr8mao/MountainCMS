@@ -7,7 +7,7 @@ $('.message .close').on('click', function () {
 });
 
 $('#user_role').on('change', function () {
-    if ($(this).val() == '1') {
+    if ($(this).val() == 1) {
         $('#warningAdmin').transition('fade up');
     } else {
         $('#warningAdmin').transition('hide');
@@ -134,7 +134,7 @@ $('.deleteFile').on("click", function () {
     var delFileName = $(this).parent().parent().find('.filename').text();
     var delFilePath = $(this).parent().parent().data('path');
     $('span.delFileName').text(delFileName);
-    $('.modal').modal({
+    $('.delete.modal').modal({
         closable: false,
         onDeny: function () {
             $(this).modal('hide');
@@ -151,7 +151,6 @@ $('.deleteFile').on("click", function () {
                 success: function (data) {
                     if (data == 1) {
                         toastr.info('Файл ' + delFileName + ' был удален!');
-                        $(this).remove();
                     } else {
                         toastr.error('Файл не был удален!');
                     }
@@ -162,6 +161,17 @@ $('.deleteFile').on("click", function () {
 
             });
         }
+    }).modal('show');
+    return false;
+});
+
+$('.preview').on("click", function () {
+    var delFileName = $(this).parent().parent().find('.filename').text();
+    var delFilePath = $(this).parent().data('path');
+    $('.previewImg').attr('src',delFilePath);
+    $('.previewModal .header').text(delFileName);
+    $('.previewModal').modal({
+
     }).modal('show');
     return false;
 });

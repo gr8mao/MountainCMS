@@ -74,6 +74,7 @@ class CoreRouter
             if (method_exists($controllerObject, $this->action)) {
                 $result = call_user_func_array(array($controllerObject, $this->action), $this->parameters);
                 if ($result) {
+                    Log::logAccess();
                     return true;
                 } else {
                     return ErrorController::actionError404();

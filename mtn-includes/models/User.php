@@ -371,4 +371,16 @@ class User
 
         return $query->execute();
     }
+
+    public static function getLatestUsers()
+    {
+        $dbConnection = Database::getDBConnection();
+
+        $query = 'SELECT user_id, user_name, user_surname, user_creation_date FROM ' . DB_PREFIX . 'users WHERE user_creation_date < CURRENT_TIME ORDER BY user_creation_date DESC LIMIT 5';
+
+        $query = $dbConnection->prepare($query);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
